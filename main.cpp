@@ -21,8 +21,13 @@ void readPixels() {
 
 int main() {
     while (true) {
-        std::thread t(readPixels);
-        t.join();
+        std::thread t1(readPixels);
+        std::thread t2(readPixels);
+        std::thread t3(readPixels);
+
+        t1.join();
+        t2.join();
+        t3.join();
     }
 
     return 0;
