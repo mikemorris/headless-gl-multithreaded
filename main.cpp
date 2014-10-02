@@ -16,10 +16,16 @@ void readPixels() {
 
     const std::unique_ptr<uint32_t[]> pixels(new uint32_t[w * h]);
 
+    view.make_active();
     glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixels.get());
+    view.make_inactive();
 }
 
 int main() {
+#if USE_GLX
+    XInitThreads();
+#endif
+
     while (true) {
         std::thread t1(readPixels);
         std::thread t2(readPixels);
