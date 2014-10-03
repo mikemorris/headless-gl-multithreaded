@@ -1,27 +1,10 @@
 #include "view.hpp"
 #include <string>
 
-View::View() {
+View::View(CGLPixelFormatObj pixelFormat)
+    : pixelFormat_(pixelFormat) {
 #if USE_CGL
-    // TODO: test if OpenGL 4.1 with GL_ARB_ES2_compatibility is supported
-    // If it is, use kCGLOGLPVersion_3_2_Core and enable that extension.
-    CGLPixelFormatAttribute attributes[] = {
-        kCGLPFAOpenGLProfile,
-        (CGLPixelFormatAttribute) kCGLOGLPVersion_Legacy,
-        kCGLPFAAccelerated,
-        (CGLPixelFormatAttribute) 0
-    };
-
-    CGLPixelFormatObj pixelFormat;
-    GLint num;
-    CGLError error = CGLChoosePixelFormat(attributes, &pixelFormat, &num);
-    if (error) {
-        fprintf(stderr, "Error pixel format: %s\n", CGLErrorString(error));
-        return;
-    }
-
-    error = CGLCreateContext(pixelFormat, NULL, &gl_context);
-    CGLDestroyPixelFormat(pixelFormat);
+    error = CGLCreateContext(pixelFormat_, NULL, &gl_context);
     if (error) {
         fprintf(stderr, "Error creating GL context object\n");
         return;

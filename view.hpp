@@ -15,7 +15,7 @@
 
 class View {
 public:
-    View();
+    View(CGLPixelFormatObj pixelFormat);
     ~View();
 
     void resize(uint16_t width, uint16_t height, float pixelRatio);
@@ -27,7 +27,9 @@ private:
 
 private:
 #if USE_CGL
+    CGLPixelFormatObj pixelFormat_;
     CGLContextObj gl_context;
+    CGLError error;
     GLuint fbo = 0;
     GLuint fbo_depth_stencil = 0;
     GLuint fbo_color = 0;
